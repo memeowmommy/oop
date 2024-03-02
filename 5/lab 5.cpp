@@ -115,12 +115,16 @@ int main()
 	cout << "TEST 2:" << endl;
 
 	ChangingClass Changing(122); //изменяем элемент
+	function<void(int, int)> listener0 = Mode_2;
 	function<void(int, int)> listener2 = Mode_2;
 	function<void(int, int)> listener3 = Mode_3;
 
 	Changing.AddListener(listener2); //добавляем 2 слушателя
 	Changing.AddListener(listener3); //добавляем 3 слушателя
-	Changing.SetPar(4423);
+	Changing.RemoveListener();
+	Changing.RemoveListener();
+	Changing.AddListener(listener0);
+	Changing.SetPar(93);
 	cout << endl;
 
 	cout << "TEST 3:" << endl;
@@ -131,6 +135,7 @@ int main()
 	collection.add(4); //добавлен первый элемент
 	collection.add(4244); //добавлен второй элемент
 	collection.change(1, 191); //второй элемент изменен на 191 (индекс второго элемента равен 1)
+	
 	collection.remove(1); //второй элемент удален
 
 }
