@@ -1,4 +1,4 @@
-﻿#include <thread> //для sleep_for()
+#include <thread> //для sleep_for()
 #include <iostream>
 #include <vector>
 #include <string>
@@ -8,7 +8,7 @@ using namespace std;
 class Command //класс родитель
 {
 protected:
-    string m_name; 
+    string m_name;
     bool m_undo_flag = false; //флажок для функции отмены
 public:
     Command() { m_name = "Command"; };
@@ -117,20 +117,22 @@ public:
     KeyBoard() {}
 
     void AddKey(Key key) { m_keys.push_back(key); } //заполняем вектор
-    void PressKey(string key_name)
+    bool PressKey(string key_name)
     {
-        bool flag = false;
+        
         for (int x = 0; x < m_keys.size(); x++)
         {
             if (m_keys[x].GetName() == key_name)  // проверяем, есть ли клавиша с именем key_name в векторе m_keys
                 //если да, вызываем команду активации для этой клавиши
             {
                 m_keys[x].Press();
-                flag = true;
+                
                 m_log.push_back(m_keys[x]); //добавляем в вектор логов эту клавишу
+                return true;
             }
         }
-        if (flag == false) { cout << "[Unable key]" << endl; } //если нет - ошибка
+        { cout << "[Unable key]" << endl; } //если нет - ошибка
+        return false;
     }
 
     void Undo() // отмена команды
@@ -143,18 +145,18 @@ public:
 
     void ActiveCommands() //красивый вывод в консоль
     {
-        cout << "\033[38;5;122m" <<endl; //перекрашиваем текст, чтоб было красиво
+        cout << "\033[38;5;122m" << endl; //перекрашиваем текст, чтоб было красиво
         this_thread::sleep_for(chrono::milliseconds(500)); //приостанавка программы на 500 миллисекунд
         //выводим активные команады
         cout << endl;
         cout << "________________________________________________________________________________________________________________________";
         cout << "Active commands: " << endl;
         for (int c = 0; c < m_log.size(); c++) //выводим из вектора логов
-        { 
-            cout << m_log[c].GetName() << endl; 
+        {
+            cout << m_log[c].GetName() << endl;
         }
         cout << endl;
-        cout << "________________________________________________________________________________________________________________________" ;
+        cout << "________________________________________________________________________________________________________________________";
         cout << endl;
         this_thread::sleep_for(chrono::milliseconds(500)); //приостанавка программы на 500 миллисекунд
         cout << "\033[0m" << endl;//перекрашиваем текст обратно
@@ -168,14 +170,15 @@ int main()
 
     //пример 1
     SpeedUp s1; //увеличиваем скорость
-   // VolumeDown s1; //уменьшаем громкость
+    // VolumeDown s1; //уменьшаем громкость
     string example1_ = "EXP 1";
     Key example1(example1_, &s1);
     test.AddKey(example1); //добавляем клавишу
 
-   
+
     test.PressKey("EXP 1"); //активация
     test.PressKey("EXP 1"); //повторная активация
+    test.PressKey("EXP 3");
     test.ActiveCommands();  //смотрим какие команды активны
 
     test.Undo(); //отмена
