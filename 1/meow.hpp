@@ -27,7 +27,7 @@ namespace prpr
 		double GetdX() { return dx; }
 		double GetX_0() { return x_0; }
 
-		//функция производной, проверка шага
+		//конструктор производной, проверка шага
 		derivative (double X_0, double dX)
 		{
 			x_0 = X_0;
