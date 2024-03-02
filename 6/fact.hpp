@@ -7,6 +7,7 @@ using namespace std;
 class AbstrFactory 
 {
 public:
+    //чисто виртуальные функции
     virtual Control* CreateForm() = 0; //создание формы 
     virtual Control* CreateLabel() = 0; //создание лейбла
     virtual Control* CreateTextBox() = 0; //создание текста
